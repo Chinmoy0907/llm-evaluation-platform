@@ -7,7 +7,7 @@ from sqlalchemy import ForeignKey
 
 from sqlalchemy.orm import relationship
 
-from database.db import Base
+from backend.database.db import Base
 
 from datetime import datetime
 

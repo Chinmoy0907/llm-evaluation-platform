@@ -5,7 +5,10 @@ from sqlalchemy.orm import Session
 
 from backend.database.db import get_db
 from backend.database.schemas import DatasetCreate
-from backend.services.dataset_service import create_dataset
+from backend.services.dataset_service import (
+    create_dataset,
+    get_all_datasets
+)
 
 router = APIRouter()
 
@@ -27,3 +30,12 @@ def create_dataset_api(
         "name": result.name,
         "description": result.description
     }
+
+@router.get("/datasets")
+def get_datasets(
+    db: Session = Depends(get_db)
+):
+
+    datasets = get_all_datasets(db)
+
+    return datasets

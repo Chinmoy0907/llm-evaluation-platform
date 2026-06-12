@@ -13,3 +13,6 @@ def create_dataset(db, name, description):
     db.refresh(dataset)
 
     return dataset
+
+def get_all_datasets(db):
+    return db.query(Dataset).all()

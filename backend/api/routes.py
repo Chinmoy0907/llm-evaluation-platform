@@ -5,11 +5,15 @@ from sqlalchemy.orm import Session
 
 from backend.database.db import get_db
 from backend.database.schemas import DatasetCreate
+from backend.database.schemas import DatasetRowCreate
 from backend.services.dataset_service import (
     create_dataset,
     get_all_datasets,
-    get_dataset_by_id
+    get_dataset_by_id,
+    create_dataset_row,
+    get_dataset_rows
 )
+
 
 router = APIRouter()
 
@@ -58,3 +62,32 @@ def get_dataset(
         }
 
     return dataset
+
+@router.post("/datasets/{dataset_id}/rows")
+def create_row(
+    dataset_id: int,
+    row: DatasetRowCreate,
+    db: Session = Depends(get_db)
+):
+
+    result = create_dataset_row(
+        db=db,
+        dataset_id=dataset_id,
+        question=row.question,
+        expected_answer=row.expected_answer
+    )
+
+    return result
+
+@router.get("/datasets/{dataset_id}/rows")
+def get_rows(
+    dataset_id: int,
+    db: Session = Depends(get_db)
+):
+
+    rows = get_dataset_rows(
+        db=db,
+        dataset_id=dataset_id
+    )
+
+    return rows

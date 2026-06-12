@@ -44,3 +44,22 @@ class DatasetRow(Base):
         "Dataset",
         back_populates="rows"
     )
+
+
+class EvaluationResult(Base):
+
+    __tablename__ = "evaluation_results"
+
+    id = Column(Integer, primary_key=True)
+
+    dataset_row_id = Column(
+        Integer,
+        ForeignKey("dataset_rows.id")
+    )
+
+    generated_answer = Column(Text)
+
+    created_at = Column(
+        DateTime,
+        default=datetime.utcnow
+    )

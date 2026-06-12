@@ -2,6 +2,11 @@ from backend.database.models import Dataset
 from backend.database.models import DatasetRow
 import pandas as pd
 from backend.database.models import DatasetRow
+from backend.database.models import (
+    Dataset,
+    DatasetRow,
+    EvaluationResult
+)
 
 
 def create_dataset(db, name, description):
@@ -86,3 +91,22 @@ def upload_dataset_csv(
     return {
         "rows_created": created_rows
     }
+
+def save_evaluation_result(
+    db,
+    dataset_row_id,
+    generated_answer
+):
+
+    result = EvaluationResult(
+        dataset_row_id=dataset_row_id,
+        generated_answer=generated_answer
+    )
+
+    db.add(result)
+
+    db.commit()
+
+    db.refresh(result)
+
+    return result

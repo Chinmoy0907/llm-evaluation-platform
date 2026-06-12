@@ -1,5 +1,7 @@
 from fastapi import APIRouter
 from fastapi import Depends
+from fastapi import UploadFile
+from fastapi import File
 
 from sqlalchemy.orm import Session
 
@@ -11,7 +13,8 @@ from backend.services.dataset_service import (
     get_all_datasets,
     get_dataset_by_id,
     create_dataset_row,
-    get_dataset_rows
+    get_dataset_rows,
+    upload_dataset_csv
 )
 
 
@@ -91,3 +94,23 @@ def get_rows(
     )
 
     return rows
+
+@router.post("/datasets/{dataset_id}/upload")
+def upload_csv(
+    dataset_id: int,
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db)
+):
+
+    file_path = f"temp_{file.filename}"
+
+    with open(file_path, "wb") as buffer:
+        buffer.write(file.file.read())
+
+    result = upload_dataset_csv(
+        db=db,
+        dataset_id=dataset_id,
+        file_path=file_path
+    )
+
+    return result

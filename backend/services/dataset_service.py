@@ -1,5 +1,7 @@
 from backend.database.models import Dataset
 from backend.database.models import DatasetRow
+import pandas as pd
+from backend.database.models import DatasetRow
 
 
 def create_dataset(db, name, description):
@@ -56,3 +58,31 @@ def get_dataset_rows(
         )
         .all()
     )
+
+def upload_dataset_csv(
+    db,
+    dataset_id,
+    file_path
+):
+
+    df = pd.read_csv(file_path)
+
+    created_rows = 0
+
+    for _, row in df.iterrows():
+
+        dataset_row = DatasetRow(
+            dataset_id=dataset_id,
+            question=row["question"],
+            expected_answer=row["expected_answer"]
+        )
+
+        db.add(dataset_row)
+
+        created_rows += 1
+
+    db.commit()
+
+    return {
+        "rows_created": created_rows
+    }

@@ -16,3 +16,10 @@ def create_dataset(db, name, description):
 
 def get_all_datasets(db):
     return db.query(Dataset).all()
+
+def get_dataset_by_id(db, dataset_id):
+    return (
+        db.query(Dataset)
+        .filter(Dataset.id == dataset_id)
+        .first()
+    )

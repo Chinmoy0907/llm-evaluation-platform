@@ -9,3 +9,7 @@ venv/
 mlruns/
 .idea/
 .vscode/
+
+backend/test_*.py
+sample_data/
+temp_*.csv

@@ -95,12 +95,14 @@ def upload_dataset_csv(
 def save_evaluation_result(
     db,
     dataset_row_id,
-    generated_answer
+    generated_answer,
+    similarity_score
 ):
 
     result = EvaluationResult(
         dataset_row_id=dataset_row_id,
-        generated_answer=generated_answer
+        generated_answer=generated_answer,
+        similarity_score=similarity_score
     )
 
     db.add(result)

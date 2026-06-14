@@ -4,6 +4,7 @@ from sqlalchemy import String
 from sqlalchemy import Text
 from sqlalchemy import DateTime
 from sqlalchemy import ForeignKey
+from sqlalchemy import Float
 
 from sqlalchemy.orm import relationship
 
@@ -63,3 +64,4 @@ class EvaluationResult(Base):
         DateTime,
         default=datetime.utcnow
     )
+    similarity_score = Column(Float)
